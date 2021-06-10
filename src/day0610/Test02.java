@@ -6,7 +6,6 @@ package day0610;
  */
 /* 69. x 的平方根 */
 public class Test02 {
-
     public int mySqrt(int x) {
         int l = 0, r = x, ans = -1;
         while (l < r) {
