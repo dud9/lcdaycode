@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,6 +47,20 @@ public class day0611 {
             }
         }
         return f[m - 1][n];
+    }
+
+    /* 一维优化 */
+    public int numSquares2(int n) {
+        int[] f = new int[n + 1];
+        Arrays.fill(f, 0x3f3f3f3f);
+        f[0] = 0;
+        for (int i = 1; i * i <= n; i++) {
+            int x = i * i;
+            for (int j = x; j <= n; j++) {
+                f[j] = Math.min(f[j], f[j - x] + 1);
+            }
+        }
+        return f[n];
     }
 }
 
