@@ -1,13 +1,15 @@
+package day0611;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author liu yicheng
- * @date 2021/6/11 - 20:01
+ * @date 2021/6/11 - 20:47
  */
 /* 279. 完全平方数 */
-public class day0611 {
+public class Test01 {
 
     /* dp */
     int INF = 0x3f3f3f3f;
@@ -63,4 +65,3 @@ public class day0611 {
         return f[n];
     }
 }
-
