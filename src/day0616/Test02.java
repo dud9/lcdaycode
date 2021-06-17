@@ -1,5 +1,7 @@
 package day0616;
 
+import annotion.Medium;
+
 /**
  * @author liu yicheng
  * @date 2021/6/16 - 7:34
@@ -12,6 +14,7 @@ public class Test02 {
     * */
     // DP
     // f[i][j]表示第i个字符到第j个字符是否为回文串
+    @Medium
     public String longestPalindrome(String s) {
         int n = s.length();
         // 长度为1,必为回文串,直接返回

@@ -1,5 +1,6 @@
 package day0616;
 
+import annotion.Simple;
 import day0615.Test05;
 
 /**
@@ -15,6 +16,7 @@ public class Test01 {
     *       注意每次从头或者尾取;
     *       可以使用双指针
     * */
+    @Simple
     public boolean stoneGame(int[] p) {
         int n = p.length, k = n >> 1, sum = 0;
         for (int i : p) sum += i;
