@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/do-with-java(6月打卡).iml" filepath="$PROJECT_DIR$/do-with-java(6月打卡).iml" />
+      <module fileurl="file://Z:/learn/domore/domore.iml" filepath="Z:/learn/domore/domore.iml" />
     </modules>
   </component>
 </project>
