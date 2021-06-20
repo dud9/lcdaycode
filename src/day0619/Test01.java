@@ -2,6 +2,7 @@ package day0619;
 
 import annotion.Medium;
 
+import java.beans.beancontext.BeanContext;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,80 +12,67 @@ import java.util.stream.Collectors;
  * 1239. 串联字符串的最大长度
  */
  public class Test01 {
-    // 本来想使用如下逻辑将「所有可能用到的状态」打表，实现 O(1) 查询某个状态有多少个字符，但是被卡了
-    // static int N = 26, M = (1 << N);
-    // static int[] cnt = new int[M];
-    // static {
-    //     for (int i = 0; i < M; i++) {
-    //         for (int j = 0; j < 26; j++) {
-    //             if (((i >> j) & 1) == 1) cnt[i]++;
-    //         }
-    //     }
-    // }
 
-    static Map<Integer, Integer> map = new HashMap<>();
-    int get(int cur) {
-        if (map.containsKey(cur)) {
-            return map.get(cur);
-        }
-        int ans = 0;
-        for (int i = cur; i > 0; i -= lowbit(i)) ans++;
-        map.put(cur, ans);
-        return ans;
-    }
-    int lowbit(int x) {
-        return x & -x;
-    }
-
-    int n;
-    int ans = Integer.MIN_VALUE;
+    int ans = 0;
+    int n = 0; // 不重复的字符串的个数
     int[] hash;
     public int maxLength(List<String> _ws) {
-        n = _ws.size();
-        HashSet<Integer> set = new HashSet<>();
+        // 去除包含重复字符的字符串 例如"hello"
+        Set<Integer> set = new HashSet<>();
         for (String s : _ws) {
             int val = 0;
             for (char c : s.toCharArray()) {
-                int t = (int)(c - 'a');
-                if (((val >> t) & 1) != 0) {
+                int t = c - 'a';
+                // 将该字符对应的数值向右移,如果为1则说明已经存在相同的字符,应该舍去
+                if (((val >> t) & 1) != 0 ) {
                     val = -1;
                     break;
+                } else {
+                    val |= (1 << t);
                 }
-                val |= (1 << t);
             }
             if (val != -1) set.add(val);
         }
 
+        // 特殊情况
         n = set.size();
         if (n == 0) return 0;
-        hash = new int[n];
 
-        int idx = 0;
-        int total = 0;
+        hash = new int[n];
+        int left = 0, idx = 1;
+        // 存入数组
         for (Integer i : set) {
-            hash[idx++] = i;
-            total |= i;
+            hash[idx] = i;
+            left |= i;
+            idx++;
         }
-        dfs(0, 0, total);
+        // 使用回溯
+        dfs(0, 0, left);
         return ans;
     }
-    void dfs(int u, int cur, int total) {
-        if (get(cur | total) <= ans) return;
-        if (u == n) {
+
+    // k  当前下标 cur 当前字母个数即(二进制1的个数)  left 剩余的1
+    void dfs (int k, int cur, int left) {
+
+        // 剪枝
+        if (get(cur | left) <= ans) return; // 如果使用全部剩下的都小于ans,则可以不用执行剩余的情形
+        if (k == n)  {
             ans = Math.max(ans, get(cur));
             return;
         }
-        // 在原有基础上，选择该数字（如果可以）
-        if ((hash[u] & cur) == 0) {
-            dfs(u + 1, hash[u] | cur, total - (total & hash[u]));
+        // 在可以使用第k的情况下,加上第k个字符串
+        if ((hash[k] & cur) == 0) {
+            dfs(k + 1, cur | hash[k], left - (left & hash[k]));
         }
-        // 不选择该数字
-        dfs(u + 1, cur, total);
+        dfs(k + 1, cur, left);
     }
 
-    public static void main(String[] args) {
-        String[] arr = new String[] {"unru","iq","ue"};
-        List<String> collect = Arrays.stream(arr).collect(Collectors.toList());
-        new Test01().maxLength(collect);
+    Map<Integer, Integer> map = new HashMap<>();
+    int get(int x) {
+        if (map.containsKey(x)) return map.get(x);
+        int num = 0;
+        for (int i = x; i != 0; i -= (i & -i)) num++;
+        map.put(x, num);
+        return num;
     }
 }
