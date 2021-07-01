@@ -79,7 +79,7 @@ public class Test01 {
 
             // idx 和 t 所在的字符进行交换
             char[] clone = ch.clone();
-            clone[idx] ^= ch[t];
+            clone[idx] ^= clone[t];
             clone[t] ^= clone[idx];
             clone[idx] ^= clone[t];
 
